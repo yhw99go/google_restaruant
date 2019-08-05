@@ -1,6 +1,5 @@
 import React from 'react';
 import './AutoCompleteText.css';
-import GoogleData from './GoogleData'
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -12,7 +11,6 @@ export default class AutoCompleteText extends React.Component {
             suggestions: [],
             location: '',
             text: '',
-            data: [],
             isLoaded: false,
         }
     }
@@ -53,9 +51,6 @@ export default class AutoCompleteText extends React.Component {
 
     goSearch = () =>{
         const { text, location } = this.state;
-        var searchQuery = String(text) + " in " + String(location)
-        console.log(searchQuery)
-        return <GoogleData query ={searchQuery} />
     }
 
     suggestionSelected (value) {
@@ -66,17 +61,15 @@ export default class AutoCompleteText extends React.Component {
     }
 
     render () {
-        const { text, isLoaded, location } = this.state;
-
+        const { text, location } = this.state;
 
         return (
             <div className="AutoCompleteText">
                 <input value={text} onChange={this.onTextChanged} type="text" placeholder="Find Restaurants" />
                 <input className ="second_wrap" value= {location} onChange={this.onLocationChanged} type="text" placeholder="Location" />
-                <button className ="third_wrap" value="" onClick={this.goSearch} type="text">
+                <button className ="third_wrap" value="" onClick={() => this.props.onGetClick(text, location)} type="text">
                     <FontAwesomeIcon icon={faSearch} />
                 </button>
-                {this.renderSuggestions()}
             </div>
         )
     }

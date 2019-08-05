@@ -7,16 +7,23 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      query: '',
+      sq: '',
     }
+  }
+
+  onGetClick = (text, location) => {
+    var searchQuery = String(text) + " in " + String(location)
+    console.log(searchQuery)
+    this.setState(() => ({sq: searchQuery}));
+      
   }
 
   render() {
     return (
       <div className="App">
         <div className="App-Component">
-            <AutoCompleteText />
-            <GoogleData />
+            <AutoCompleteText onGetClick={this.onGetClick} />
+            <GoogleData sq = {this.state.sq}/>
         </div>      
       </div>
     );
