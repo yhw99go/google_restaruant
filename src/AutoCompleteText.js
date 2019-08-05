@@ -1,5 +1,7 @@
 import React from 'react';
 import './AutoCompleteText.css';
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class AutoCompleteText extends React.Component {
     constructor(props){
@@ -7,6 +9,7 @@ export default class AutoCompleteText extends React.Component {
         this.items = [];
         this.state = {
             suggestions: [],
+            location: '',
             text: '',
             data: [],
             isLoaded: false,
@@ -35,6 +38,16 @@ export default class AutoCompleteText extends React.Component {
         this.setState(() => ({suggestions, text: value}));
     }
 
+    onLocationChanged = (e) => {
+        const value = e.target.value;
+        let suggestions = [];
+        if (value.length > 0){
+            const regex = new RegExp(`^${value}`, 'i');
+            suggestions = this.items.sort().filter(v => regex.test(v));
+        } 
+        this.setState(() => ({suggestions, location: value}));
+    }
+
     renderSuggestions () {
         const { suggestions, data } = this.state;
         this.items = this.state.data.map(item => item.name);
@@ -57,7 +70,7 @@ export default class AutoCompleteText extends React.Component {
     }
 
     render () {
-        const { text, isLoaded } = this.state;
+        const { text, isLoaded, location } = this.state;
 
 
         if(!isLoaded){
@@ -66,7 +79,11 @@ export default class AutoCompleteText extends React.Component {
 
         return (
             <div className="AutoCompleteText">
-                <input value={text} onChange={this.onTextChanged} type="text" />
+                <input value={text} onChange={this.onTextChanged} type="text" placeholder="Find Restaurants" />
+                <input className ="second_wrap" value= {location} onChange={this.onLocationChanged} type="text" placeholder="Location" />
+                <button className ="third_wrap" value="" onChange={this.onTextChanged} type="text">
+                    <FontAwesomeIcon icon={faSearch} />
+                </button>
                 {this.renderSuggestions()}
             </div>
         )
