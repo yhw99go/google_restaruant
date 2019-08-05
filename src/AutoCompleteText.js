@@ -1,5 +1,6 @@
 import React from 'react';
 import './AutoCompleteText.css';
+import GoogleData from './GoogleData'
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -14,18 +15,6 @@ export default class AutoCompleteText extends React.Component {
             data: [],
             isLoaded: false,
         }
-    }
-
-    componentDidMount() {
-        fetch('https://jsonplaceholder.typicode.com/users')
-            .then(res => res.json())
-            .then(json => {
-                this.setState({
-                    isLoaded: true,
-                    data: json,
-                })
-        });
-        
     }
 
     onTextChanged = (e) => {
@@ -62,6 +51,13 @@ export default class AutoCompleteText extends React.Component {
         );
     }
 
+    goSearch = () =>{
+        const { text, location } = this.state;
+        var searchQuery = String(text) + " in " + String(location)
+        console.log(searchQuery)
+        return <GoogleData query ={searchQuery} />
+    }
+
     suggestionSelected (value) {
         this.setState(() => ({
             text: value,
@@ -73,15 +69,11 @@ export default class AutoCompleteText extends React.Component {
         const { text, isLoaded, location } = this.state;
 
 
-        if(!isLoaded){
-            return <div>...Loading</div>
-        }
-
         return (
             <div className="AutoCompleteText">
                 <input value={text} onChange={this.onTextChanged} type="text" placeholder="Find Restaurants" />
                 <input className ="second_wrap" value= {location} onChange={this.onLocationChanged} type="text" placeholder="Location" />
-                <button className ="third_wrap" value="" onChange={this.onTextChanged} type="text">
+                <button className ="third_wrap" value="" onClick={this.goSearch} type="text">
                     <FontAwesomeIcon icon={faSearch} />
                 </button>
                 {this.renderSuggestions()}
