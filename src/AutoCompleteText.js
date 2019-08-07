@@ -1,5 +1,6 @@
 import React from 'react';
 import './AutoCompleteText.css';
+import Filter from './Filter.js'
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -35,6 +36,8 @@ export default class AutoCompleteText extends React.Component {
         this.setState(() => ({suggestions, location: value}));
     }
 
+    
+
     renderSuggestions () {
         const { suggestions, data } = this.state;
         this.items = this.state.data.map(item => item.name);
@@ -49,9 +52,13 @@ export default class AutoCompleteText extends React.Component {
         );
     }
 
-    goSearch = () =>{
-        const { text, location } = this.state;
-    }
+
+    renderFilters () {
+        return (
+             <div> hello </div>
+        );
+     }
+
 
     suggestionSelected (value) {
         this.setState(() => ({
