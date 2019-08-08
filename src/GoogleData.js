@@ -28,7 +28,8 @@ export default class GoogleData extends React.Component {
     placeService.textSearch(request, (results, status, pagination) => {
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
         console.log(results)
- 
+        console.log(this.props.totalRating, this.props.rating)
+
         results.forEach((item) => {
           map.setCenter(results[0].geometry.location);
         });
@@ -39,12 +40,11 @@ export default class GoogleData extends React.Component {
         };
       }
     })
-
   }
 
   render() {
     return (
       <div id="map" />
       );
-    }
+  }
 }
