@@ -42,10 +42,9 @@ export default class AutoCompleteText extends React.Component {
         this.setState(() => ({rating: value}));
     }
 
-    
 
     renderSuggestions () {
-        const { suggestions, data } = this.state;
+        const { suggestions } = this.state;
         this.items = this.state.data.map(item => item.name);
 
         if (suggestions.length === 0){

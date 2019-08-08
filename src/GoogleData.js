@@ -18,7 +18,6 @@ export default class GoogleData extends React.Component {
     const map = new window.google.maps.Map(document.getElementById('map'), {
       zoom: 8
     });
-    
 
     var request = {
       query: this.props.sq,
@@ -27,24 +26,43 @@ export default class GoogleData extends React.Component {
     const placeService = new window.google.maps.places.PlacesService(map)
     placeService.textSearch(request, (results, status, pagination) => {
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-        console.log(results)
-        console.log(this.props.totalRating, this.props.rating)
-
+        
         results.forEach((item) => {
+          this.setState({ data: this.state.data.concat(item.name) })
           map.setCenter(results[0].geometry.location);
         });
       
-        if (pagination.hasNextPage) {
-          pagination.nextPage();
-          console.log("next!")
-        };
+        //if (pagination.hasNextPage) {
+        //  pagination.nextPage();
+        //  console.log("next!")
+        //};
       }
     })
   }
 
+  renderResult(){
+    const { data } = this.state;
+    if (data.length === 0){
+        return null;
+    } 
+    console.log(data)
+    if (data.length > 300){
+      return (
+        <ul>
+            {data.map((item) => <li key={item.place_id}>{item.name}</li>)}
+        </ul>
+    );
+    console.log("done:?")
+    }
+
+  }
+
   render() {
     return (
-      <div id="map" />
-      );
+      <div id="map">
+      {this.renderResult()}
+      </div>
+      )
+
   }
 }
