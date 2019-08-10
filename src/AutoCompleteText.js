@@ -1,6 +1,8 @@
 import React from 'react';
 import './AutoCompleteText.css';
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import Slider from 'react-rangeslider'
+import 'react-rangeslider/lib/index.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class AutoCompleteText extends React.Component {
@@ -33,12 +35,18 @@ export default class AutoCompleteText extends React.Component {
     }
 
     onTotalChanged = (e) => {
-        const value = e.target.value;
+        let  value = e.target.value.replace(/\D/,'');
+        if (value > 200000){
+             value = "200000"
+        }
         this.setState(() => ({totalRating: value}));
     }
 
     onReviewChanged = (e) => {
-        const value = e.target.value;
+        let value = e.target.value.replace(/[a-zA-Z]+/,'').replace(/\//g, "").slice(0, 3);
+        if (value > 5){
+             value = "5"
+        }
         this.setState(() => ({rating: value}));
     }
 
@@ -74,8 +82,9 @@ export default class AutoCompleteText extends React.Component {
                 <button className ="third_wrap" value="" onClick={() => this.props.onGetClick(text, location,totalRating, rating)} type="text">
                     <FontAwesomeIcon icon={faSearch} />
                 </button>
-                <input value = {totalRating} onChange={this.onTotalChanged} className = "filter_box" type="text" placeholder="Total Reviews" />
-                <input value = {rating} onChange={this.onReviewChanged} className = "filter_box" type="text" placeholder="Ratings" />
+                <input value = {totalRating} onChange={this.onTotalChanged} className = "filter_box" type="text" pattern="[0-9]*" placeholder="Total Reviews" />
+                <input value = {rating} onChange={this.onReviewChanged} className = "filter_box" type="range"pattern="^\d*(\.\d{0,1})?$"  placeholder="Ratings" />
+  
             </div>
         )
     }

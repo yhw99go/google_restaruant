@@ -8,7 +8,7 @@ export default class GoogleData extends React.Component {
     this.items = [];
     this.state = {
         text: '',
-        data: [],
+        data: new Set(),
         isLoaded: false,
     }
 }
@@ -26,10 +26,12 @@ export default class GoogleData extends React.Component {
     const placeService = new window.google.maps.places.PlacesService(map)
     placeService.textSearch(request, (results, status, pagination) => {
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-        
         results.forEach((item) => {
-          this.setState({ data: this.state.data.concat(item.name) })
-          map.setCenter(results[0].geometry.location);
+          if (item.user_ratings_total > this.props.totalRating && item.rating > this.props.rating ){
+            this.setState(({ data }) => ({
+              data: new Set(data).add(item)
+            }));
+          }
         });
       
         //if (pagination.hasNextPage) {
@@ -43,16 +45,17 @@ export default class GoogleData extends React.Component {
   renderResult(){
     const { data } = this.state;
     if (data.length === 0){
+      console.log("0")
         return null;
     } 
     console.log(data)
-    if (data.length > 300){
+    if (data.length < 100){
+      console.log(data)
       return (
         <ul>
             {data.map((item) => <li key={item.place_id}>{item.name}</li>)}
         </ul>
     );
-    console.log("done:?")
     }
 
   }
