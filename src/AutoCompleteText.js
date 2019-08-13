@@ -79,7 +79,7 @@ export default class AutoCompleteText extends React.Component {
             <div className="AutoCompleteText">
                 <input value={text} onChange={this.onTextChanged} type="text" placeholder="Find Restaurants" />
                 <input className ="second_wrap" value= {location} onChange={this.onLocationChanged} type="text" placeholder="Location" />
-                <button className ="third_wrap" value="" onClick={() => this.props.onGetClick(text, location,totalRating, rating)} type="text">
+                <button className ="third_wrap" value="" onClick={(e) => this.props.onGetClick(text, location,totalRating, rating)} type="text">
                     <FontAwesomeIcon icon={faSearch} />
                 </button>
                 <input value = {totalRating} onChange={this.onTotalChanged} className = "filter_box" type="text" pattern="[0-9]*" placeholder="Total Reviews" />

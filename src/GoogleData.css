@@ -1,11 +1,18 @@
-.map{
-    width: 500px;
-    height: 500px;
-    margin: auto;
+.result ul {
+    z-index:1000;
+    list-style-type: none;
+    text-align: left; 
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid grey;
 }
 
-.map .li{
+.result li {
+    z-index:1000;
+    padding: 10px 5px;
+}
+
+#map{
     width: 500px;
     height: 500px;
-    margin: auto;
 }
