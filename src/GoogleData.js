@@ -40,20 +40,18 @@ export default class GoogleData extends React.Component {
         //};
       }
     })
+    this.renderResult();
   }
 
   renderResult(){
     const { data } = this.state;
     if (data.length === 0){
-      console.log("0")
         return null;
     } 
-    console.log(data)
     if (data.length < 100){
-      console.log(data)
       return (
         <ul>
-            {data.map((item) => <li key={item.place_id}>{item.name}</li>)}
+            {data.map((item) => <li key={item.place_id}>{item.name}</li>)}h
         </ul>
     );
     }

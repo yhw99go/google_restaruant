@@ -83,7 +83,7 @@ export default class AutoCompleteText extends React.Component {
                     <FontAwesomeIcon icon={faSearch} />
                 </button>
                 <input value = {totalRating} onChange={this.onTotalChanged} className = "filter_box" type="text" pattern="[0-9]*" placeholder="Total Reviews" />
-                <input value = {rating} onChange={this.onReviewChanged} className = "filter_box" type="range"pattern="^\d*(\.\d{0,1})?$"  placeholder="Ratings" />
+                <input value = {rating} onChange={this.onReviewChanged} className = "filter_box" type="text"pattern="^\d*(\.\d{0,1})?$"  placeholder="Ratings" />
   
             </div>
         )
