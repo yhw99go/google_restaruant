@@ -13,12 +13,18 @@ export default class GoogleData extends React.Component {
     }
 }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (this.props.sq === ""){
       return
     }
-    const copyData = [this.state.data];
+
+    if (this.props.sq === prevProps.sq){
+      return
+    }
+
+    var copyData = [];
     const map = new window.google.maps.Map(document.getElementById('map'), {
+      center:"toronto",
       zoom: 8
     });
 
@@ -36,16 +42,13 @@ export default class GoogleData extends React.Component {
             copyData.push(item)
           }
         });
-      
+        this.setState({data: copyData});
         //if (pagination.hasNextPage) {
         //  pagination.nextPage();
         //  console.log("next!")
         //};
       }
     })
-    if (this.state.data.length < copyData.length) {
-      this.setState({data: copyData});
-    }
   }
 
   createMarker(place, map) {
@@ -61,7 +64,7 @@ export default class GoogleData extends React.Component {
     });
   }
 
-  renderResult(){
+  renderResult = () => {
     const { data } = this.state;
 
     if (data.length === 0){
@@ -71,11 +74,10 @@ export default class GoogleData extends React.Component {
       console.log(data)
       return (
         <ul>
-            {data.slice(1).map((item) => <li ckey={item.id}>{item.name}</li>)}
+            {data.slice(1).map((item) => <li key={item.id}>{item.name}</li>)}
         </ul>
     );
     }
-
   }
 
   render() {
@@ -83,6 +85,5 @@ export default class GoogleData extends React.Component {
       <div id="map">
       </div>
       )
-
   }
 }
