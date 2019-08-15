@@ -5,6 +5,10 @@ export default class GoogleData extends React.Component {
   
   constructor(props){
     super(props);
+    this.map = new window.google.maps.Map(document.getElementById('map'), {
+      center:"toronto",
+      zoom: 8
+    });
     this.items = [];
     this.state = {
         text: '',
@@ -23,22 +27,18 @@ export default class GoogleData extends React.Component {
     }
 
     var copyData = [];
-    const map = new window.google.maps.Map(document.getElementById('map'), {
-      center:"toronto",
-      zoom: 8
-    });
 
     var request = {
       query: this.props.sq,
       fields: ['place_id', 'name', 'formatted_address', 'icon', 'geometry', 'user_ratings_total'],
     };
-    const placeService = new window.google.maps.places.PlacesService(map)
+    const placeService = new window.google.maps.places.PlacesService(this.map)
     placeService.textSearch(request, (results, status, pagination) => {
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-        map.setCenter(results[0].geometry.location);
+        this.map.setCenter(results[0].geometry.location);
         results.forEach((item) => {
           if (item.user_ratings_total > this.props.totalRating && item.rating > this.props.rating && copyData.indexOf(item) === -1){ 
-            this.createMarker(item, map);
+            this.createMarker(item, this.map);
             copyData.push(item)
           }
         });
@@ -82,7 +82,8 @@ export default class GoogleData extends React.Component {
 
   render() {
     return (
-      <div id="map">
+      <div>
+      {this.renderResult()}
       </div>
       )
   }
